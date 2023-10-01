@@ -8,3 +8,7 @@ dependencies:
     - opencv-python
     - mediapipe
     - numpy
+    - pandas
+    - torch
+    - timm
+    - scipy
