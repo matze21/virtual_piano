@@ -17,6 +17,7 @@ class handDetector():
         self.yGridVal = []
         self.gridAvailable = False
         self.handDistFeatures = {}
+        self.zCam1 = 1
         
         self.tipPointsArray = [4,8,12,16,20, 3,7,11,15,19] #ids of finger tips
         self.tips     = [4,8,12,16,20]
@@ -79,34 +80,29 @@ class handDetector():
     def renderPoint(self,img, cx,cy):
         cv2.circle(img, (cx,cy), 15, (255,100,255), cv2.FILLED) #img, coordinates, radius, color, mode
         return img
-
-    def calcZEgo(self, x, y):
-        yc,fl,pitch,zCam1,zCam2,zCam3,zCam4,zCam5,zCam6,zCam7,zCam8,zCam9,zCam10 = x 
-        eq1 = (np.sin(pitch) - (y - yc) / fl * np.cos(pitch)) * zCam1
-        return eq1
     
     def calcZEgoExt(self, y, zCam):
-            yc,fl,pitch,zCam1,zCam2,zCam3,zCam4,zCam5,zCam6,zCam7,zCam8,zCam9,zCam10 = self.solutions
+            yc,fl,pitch,zCam2,zCam3,zCam4,zCam5,zCam6,zCam7,zCam8,zCam9,zCam10 = self.solutions
             eq1 = (np.sin(pitch) - (y - yc) / fl * np.cos(pitch)) * zCam
             return eq1
 
     def calcZCam(self,x,y):
-        yc,fl,pitch,zCam1,zCam2,zCam3,zCam4,zCam5,zCam6,zCam7,zCam8,zCam9,zCam10 = x 
+        yc,fl,pitch,zCam2,zCam3,zCam4,zCam5,zCam6,zCam7,zCam8,zCam9,zCam10 = x 
         eq1 = self.zEgo / (np.sin(pitch) - (y - yc) / fl * np.cos(pitch))
         return eq1
 
 
     def functions(self,x):
-        yc,fl,pitch,zCam1,zCam2,zCam3,zCam4,zCam5,zCam6,zCam7,zCam8,zCam9,zCam10 = x 
-        eq1 = (np.sin(pitch) - (self.y1 - yc) / fl * np.cos(pitch)) * zCam1 - (np.sin(pitch) - (self.y2 - yc) / fl * np.cos(pitch)) * zCam2
-        eq2 = (np.sin(pitch) - (self.y1 - yc) / fl * np.cos(pitch)) * zCam1 - (np.sin(pitch) - (self.y3 - yc) / fl * np.cos(pitch)) * zCam3
-        eq3 = (np.sin(pitch) - (self.y1 - yc) / fl * np.cos(pitch)) * zCam1 - (np.sin(pitch) - (self.y4 - yc) / fl * np.cos(pitch)) * zCam4
-        eq4 = (np.sin(pitch) - (self.y1 - yc) / fl * np.cos(pitch)) * zCam1 - (np.sin(pitch) - (self.y5 - yc) / fl * np.cos(pitch)) * zCam5
-        eq5 = (np.sin(pitch) - (self.y1 - yc) / fl * np.cos(pitch)) * zCam1 - (np.sin(pitch) - (self.y6 - yc) / fl * np.cos(pitch)) * zCam6
-        eq6 = (np.sin(pitch) - (self.y1 - yc) / fl * np.cos(pitch)) * zCam1 - (np.sin(pitch) - (self.y7 - yc) / fl * np.cos(pitch)) * zCam7
-        eq7 = (np.sin(pitch) - (self.y1 - yc) / fl * np.cos(pitch)) * zCam1 - (np.sin(pitch) - (self.y8 - yc) / fl * np.cos(pitch)) * zCam8
-        eq8 = (np.sin(pitch) - (self.y1 - yc) / fl * np.cos(pitch)) * zCam1 - (np.sin(pitch) - (self.y9 - yc) / fl * np.cos(pitch)) * zCam9
-        eq9 = (np.sin(pitch) - (self.y1 - yc) / fl * np.cos(pitch)) * zCam1 - (np.sin(pitch) - (self.y10 - yc) / fl * np.cos(pitch)) * zCam10
+        yc,fl,pitch,zCam2,zCam3,zCam4,zCam5,zCam6,zCam7,zCam8,zCam9,zCam10 = x 
+        eq1 = (np.sin(pitch) - (self.y1 - yc) / fl * np.cos(pitch)) * self.zCam1 - (np.sin(pitch) - (self.y2 - yc) / fl * np.cos(pitch)) * zCam2
+        eq2 = (np.sin(pitch) - (self.y1 - yc) / fl * np.cos(pitch)) * self.zCam1 - (np.sin(pitch) - (self.y3 - yc) / fl * np.cos(pitch)) * zCam3
+        eq3 = (np.sin(pitch) - (self.y1 - yc) / fl * np.cos(pitch)) * self.zCam1 - (np.sin(pitch) - (self.y4 - yc) / fl * np.cos(pitch)) * zCam4
+        eq4 = (np.sin(pitch) - (self.y1 - yc) / fl * np.cos(pitch)) * self.zCam1 - (np.sin(pitch) - (self.y5 - yc) / fl * np.cos(pitch)) * zCam5
+        eq5 = (np.sin(pitch) - (self.y1 - yc) / fl * np.cos(pitch)) * self.zCam1 - (np.sin(pitch) - (self.y6 - yc) / fl * np.cos(pitch)) * zCam6
+        eq6 = (np.sin(pitch) - (self.y1 - yc) / fl * np.cos(pitch)) * self.zCam1 - (np.sin(pitch) - (self.y7 - yc) / fl * np.cos(pitch)) * zCam7
+        eq7 = (np.sin(pitch) - (self.y1 - yc) / fl * np.cos(pitch)) * self.zCam1 - (np.sin(pitch) - (self.y8 - yc) / fl * np.cos(pitch)) * zCam8
+        eq8 = (np.sin(pitch) - (self.y1 - yc) / fl * np.cos(pitch)) * self.zCam1 - (np.sin(pitch) - (self.y9 - yc) / fl * np.cos(pitch)) * zCam9
+        eq9 = (np.sin(pitch) - (self.y1 - yc) / fl * np.cos(pitch)) * self.zCam1 - (np.sin(pitch) - (self.y10 - yc) / fl * np.cos(pitch)) * zCam10
 
         eq10 = (np.sin(pitch) - (self.y2 - yc) / fl * np.cos(pitch)) * zCam2 - (np.sin(pitch) - (self.y3 - yc) / fl * np.cos(pitch)) * zCam3
         eq11 = (np.sin(pitch) - (self.y2 - yc) / fl * np.cos(pitch)) * zCam2 - (np.sin(pitch) - (self.y4 - yc) / fl * np.cos(pitch)) * zCam4
@@ -170,23 +166,24 @@ class handDetector():
         self.y8 = self.y_vals['12.0yl']
         self.y9 = self.y_vals['16.0yl']
         self.y10 = self.y_vals['20.0yl']
-        print(self.y_vals)
+        self.zCam1 = 1 #normalize z distance
+        #print(self.y_vals)
 
-        solutions= scipy.optimize.leastsq(self.functions, [300, 600,np.deg2rad(-10),30,30,30,30,33,30,30,30,30,33])[0]
+        solutions= scipy.optimize.leastsq(self.functions, [300, 600,np.deg2rad(-10),1.01,0.99,0.99,0.99,1.001,1.01,0.99,0.99,1.001])[0]
         print('solution: ', solutions)
-        #print('solution accuracy', self.functions(solutions))
-        zEgo1 = self.calcZEgo(solutions, self.y1)
-        zEgo2 = self.calcZEgo(solutions, self.y2)
-        zEgo3 = self.calcZEgo(solutions, self.y3)
-        zEgo4 = self.calcZEgo(solutions, self.y4)
-        zEgo5 = self.calcZEgo(solutions, self.y5)
-        zEgo6 = self.calcZEgo(solutions, self.y6)
-        zEgo7 = self.calcZEgo(solutions, self.y7)
-        zEgo8 = self.calcZEgo(solutions, self.y8)
-        zEgo9 = self.calcZEgo(solutions, self.y9)
-        zEgo10 = self.calcZEgo(solutions, self.y10)
-        print('zEgos',zEgo1, zEgo2,zEgo3,zEgo4,zEgo5,zEgo6,zEgo7,zEgo8,zEgo9,zEgo10)
         self.solutions = solutions
+        #print('solution accuracy', self.functions(solutions))
+        zEgo1 = self.calcZEgoExt(self.y1, self.zCam1)
+        zEgo2 = self.calcZEgoExt(self.y2, solutions[3])
+        zEgo3 = self.calcZEgoExt(self.y3, solutions[4])
+        zEgo4 = self.calcZEgoExt(self.y4, solutions[5])
+        zEgo5 = self.calcZEgoExt(self.y5, solutions[6])
+        zEgo6 = self.calcZEgoExt(self.y6, solutions[7])
+        zEgo7 = self.calcZEgoExt(self.y7, solutions[8])
+        zEgo8 = self.calcZEgoExt(self.y8, solutions[9])
+        zEgo9 = self.calcZEgoExt(self.y9, solutions[10])
+        zEgo10 = self.calcZEgoExt(self.y10, solutions[11])
+        print('zEgos',zEgo1, zEgo2,zEgo3,zEgo4,zEgo5,zEgo6,zEgo7,zEgo8,zEgo9,zEgo10)
         self.zEgo = zEgo1
 
         # relative finger size
@@ -214,7 +211,7 @@ class handDetector():
         return self.handDistFeatures[key]*self.solutions[1]/imgDist
     
     def calcImgXY(self, xEgo,zEgo,yEgo,xc):
-        yc,fl,pitch,zCam1,zCam2,zCam3,zCam4,zCam5,zCam6,zCam7,zCam8,zCam9,zCam10 = self.solutions
+        yc,fl,pitch,zCam2,zCam3,zCam4,zCam5,zCam6,zCam7,zCam8,zCam9,zCam10 = self.solutions
         yCam = (xEgo-zEgo/np.tan(pitch))/(np.cos(pitch)**2/np.sin(pitch)+np.sin(pitch))
         zCam = (zEgo + np.cos(pitch)*yCam)/np.sin(pitch)
 
@@ -223,8 +220,8 @@ class handDetector():
         return xImg,yImg
 
     def calcGrid(self, img):
-        x_interval = np.linspace(0,100,20)
-        y_interval = np.linspace(-50,50,10)
+        x_interval = np.linspace(0,10,20)
+        y_interval = np.linspace(-1,1,10)
         xc = img.shape[1]/2
 
         x_vals = np.ones((20,10))*np.nan
